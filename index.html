@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<html>
+<head>
+<title>YOUR PAGE TITLE HERE</title>
 <meta charset="utf-8">
 <style>
 body {
@@ -40,6 +43,7 @@ body {
 }
 
 </style>
+</head>
 <body>
 <svg width="960" height="500"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -125,19 +129,17 @@ d3.json("data1.json", function(error, data) {
         
 g.append("g")
       .attr("class", "axis axis--y2")
+      .attr("transform", "translate(" + width + ",0)")
       .call(d3.axisRight(y2).ticks(12).tickFormat(function(d) { return parseInt(d); })) 
     .append("text")
       .attr("class", "axis-title")
       .attr("transform", "rotate(-90)")
-      .attr("y2", 6)
-      .attr("dy2", "10.91em")
+      .attr("y", 6)
+      .attr("dy", "-.91em")
       .style("text-anchor", "end")
       .attr("fill", "#5D6971")
       .text("Avg."); 
-    
-
-  
-
+ 
     g.append("path")
         .datum(data)
         .attr("class", "line")
@@ -175,7 +177,7 @@ g.append("g")
         .attr("class", "overlay")
         .attr("width", width)
         .attr("height", height)
-        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseover", function() { focus.style("display", "initial"); }) // "initial" gives the default display attribute
         .on("mouseout", function() { focus.style("display", "none"); })
         .on("mousemove", mousemove);
 
@@ -190,7 +192,12 @@ g.append("g")
       focus.select(".x-hover-line").attr("y2", height - y(d.value));
       focus.select(".y-hover-line").attr("x2", width + width);
       //add down here to get the second line to use the mousemove
+
+      // TODO: Calculate which line is closer to the cursor,
+      // and draw the tooltip for that line only.
     }
 });
 
 </script>
+</body>
+</html>
