@@ -94,13 +94,13 @@ d3.json("data1.json", function(error, data) {
         .style("text-decoration", "underline")  
         .text("Light-Sweet Crude passengers Prices");
 
-    //x axis label
+    //x axis format and label
  g.append("g")
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x).ticks(15))
         
-        //x axis label
+        //x axis title
         .append("text")
         .attr("class", "axis-title")
         .attr("transform", "rotate(0)")
@@ -110,10 +110,10 @@ d3.json("data1.json", function(error, data) {
         .attr("fill", "#5D6971")
         .text("Year");
         
- // y axis label
+ // y axis and format label
   g.append("g")
         .attr("class", "axis axis--y")
-        .call(d3.axisLeft(y).ticks(8).tickFormat(function(d) { return parseInt(d); })) //{ return parseInt(d / 1000) + "k"; }))
+        .call(d3.axisLeft(y).ticks(8).tickFormat(function(d) { return parseInt(d); })) 
       .append("text")
         .attr("class", "axis-title")
         .attr("transform", "rotate(-90)")
@@ -123,6 +123,17 @@ d3.json("data1.json", function(error, data) {
         .attr("fill", "#5D6971")
         .text("Avg. passengers Price ($/barrel)"); 
         
+g.append("g")
+      .attr("class", "axis axis--y2")
+      .call(d3.axisRight(y2).ticks(12).tickFormat(function(d) { return parseInt(d); })) 
+    .append("text")
+      .attr("class", "axis-title")
+      .attr("transform", "rotate(-90)")
+      .attr("y2", 6)
+      .attr("dy2", "10.91em")
+      .style("text-anchor", "end")
+      .attr("fill", "#5D6971")
+      .text("Avg."); 
     
 
   
@@ -132,7 +143,7 @@ d3.json("data1.json", function(error, data) {
         .attr("class", "line")
         .attr("d", line);
     
-    //line2..
+    //line2.. is this necessary?
     g.append("path")
         .datum(data)
         .attr("class", "line")
