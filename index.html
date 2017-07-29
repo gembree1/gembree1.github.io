@@ -1,198 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>CS498 Final Project</title>
-<meta charset="utf-8">
-<!--Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<style>
-body {
-  background-color: #F1F3F3    
-}
-.axis {
-	font: 10px sans-serif;
-}
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #D4D4DA;
-  stroke-width: 2px;
-  shape-rendering: crispEdges;
-}
-.line {
-  fill: none;
-  stroke: #247f66;
-  stroke-width: 5px;
-}
-.line2 {
-  fill: none;
-  stroke: #6c247f; 
-  stroke-width: 5px;
-}
-.overlay {
-  fill: none;
-  pointer-events: all;
-}
-.focus circle {
-  fill: #F1F3F3;
-  stroke: #6F257F;  
-  stroke-width: 5px;
-}
-  
-.hover-line {
-  stroke: #245f7f;
-  stroke-width: 2px;
-  stroke-dasharray: 3,3;
-}
-</style>
-</head>
-<body>
-<svg width="960" height="500"></svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
-var svg = d3.select("svg"),
-    margin = {top: 22, right: 80, bottom: 30, left: 50},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom;
-var parseTime = d3.timeParse("%Y")
-    bisectDate = d3.bisector(function(d) { return d.year; }).left;
-var x = d3.scaleTime().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
-//right hand y axis for passengers
-var y2 = d3.scaleLinear().range([height, 0]);
-var line = d3.line()
-    .x(function(d) { return x(d.year); })
-    .y(function(d) { return y(d.value); });
-    //second line
-var line2 = d3.line()
-    .x(function(d) { return x(d.year); })
-    .y(function(d) { return y2(d.passengers); });    
- //   
-var g = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-d3.json("data1.json", function(error, data) {
-    if (error) throw error;
-    data.forEach(function(d) {
-      d.year = parseTime(d.year);
-      d.value = +d.value;
-      //passengers data
-      d.passengers = +d.passengers;
-    });
-    x.domain(d3.extent(data, function(d) { return d.year; }));
-    y.domain([d3.min(data, function(d) { return d.value; }) / 1.005, d3.max(data, function(d) { return d.value; }) * 1.005]);
-    // scale the range of the passengers data
-    y2.domain([d3.min(data, function(d) { return d.passengers; }) / 1.005, d3.max(data, function(d) { return d.passengers; }) * 1.005]);
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Airline Pssengers...">
+    <meta name="author" content="Greg Embree">
+
+    <title>Airline Passengers</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     
-  //title 
-    g.append("text")
-        .attr("x", (width / 2))             
-        .attr("y", 0 - (margin.top / 2))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "16px") 
-        .style("text-decoration", "underline")  
-        .text("Light-Sweet Crude passengers Prices");
-    //x axis format and label
- g.append("g")
-        .attr("class", "axis axis--x")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).ticks(15))
-        
-        //x axis title
-        .append("text")
-        .attr("class", "axis-title")
-        .attr("transform", "rotate(0)")
-        .attr("x", 10)
-        .attr("dx", "79.91em")
-        .style("text-anchor", "right")
-        .attr("fill", "#5D6971")
-        .text("Year");
-        
- // y axis and format label
-  g.append("g")
-        .attr("class", "axis axis--y")
-        .call(d3.axisLeft(y).ticks(8).tickFormat(function(d) { return parseInt(d); })) 
-      .append("text")
-        .attr("class", "axis-title")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".91em")
-        .style("text-anchor", "end")
-        .attr("fill", "#5D6971")
-        .text("Avg. oil Price ($/barrel)"); 
-        
-g.append("g")
-      .attr("class", "axis axis--y2")
-      .attr("transform", "translate(" + width + ",0)")
-      .call(d3.axisRight(y2).ticks(12).tickFormat(function(d) { return parseInt(d); })) 
-    .append("text")
-      .attr("class", "axis-title")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "-.91em")
-      .style("text-anchor", "end")
-      .attr("fill", "#5D6971")
-      .text("Global Passengers (Billions)"); 
- 
-    g.append("path")
-        .datum(data)
-        .attr("class", "line")
-        .attr("d", line);  
-    g.append("path")
-        .datum(data)
-        .attr("class", "line2")
-        .attr("d", line2);
-    var focus = g.append("g")
-        .attr("class", "focus")
-        .style("display", "none");
-    focus.append("line")
-        .attr("class", "x-hover-line hover-line")
-        .attr("y1", 0)
-        .attr("y2", height);
-    focus.append("line")
-        .attr("class", "y-hover-line hover-line")
-        .attr("x1", width)
-        .attr("x2", width);
-    focus.append("circle")
-        .attr("r", 7.5);
-    focus.append("text")
-        .attr("x", 15)
-      	.attr("dy", ".31em");
-    svg.append("rect")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .attr("class", "overlay")
-        .attr("width", width)
-        .attr("height", height)
-        .on("mouseover", function() { focus.style("display", "initial"); }) // "initial" gives the default display attribute
-        .on("mouseout", function() { focus.style("display", "none"); })
-        .on("mousemove", mousemove);
-   
-     
-    function mousemove() {
-      var x0 = x.invert(d3.mouse(this)[0]),
-          i = bisectDate(data, x0, 1),
-          d0 = data[i - 1],
-          d1 = data[i],
-          d = x0 - d0.year > d1.year - x0 ? d1 : d0;
-      var value_y = y(d.value);
-      var passengers_y = y2(d.passengers);
-      var mouse_y = d3.mouse(this)[1];
-      var vert_offset = 0.0;
-      var display_text = "";
-      if (Math.abs(mouse_y-value_y) < Math.abs(mouse_y-passengers_y)) {
-        vert_offset = value_y;
-        display_text = "" + d.value;
-      }
-      else {
-        vert_offset = passengers_y;
-        display_text = "" + d.passengers;
-      }
-      focus.attr("transform", "translate(" + x(d.year) + "," + vert_offset + ")");
-      focus.select("text").text(function() { return display_text; });
-      focus.select(".x-hover-line").attr("y2", height - vert_offset);
-      focus.select(".y-hover-line").attr("x2", width + width);
-      
-    }
-});
-</script>
+    <!--Viz CSS code-->
+    <link href="css/choro" rel="stylesheet">
+    <link href="css/line" rel="stylesheet">
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Overview</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top">Overview</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#map">Map</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#passengersoil">Global Passengers with Oil Prices</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#About">About Viz</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Citations</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Overview Section -->
+    <section id="overview" class="Overview-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                
+                   <div class="slide-headings">Airline Passengers</div>
+                    </br></br>
+                    <p class="slide-text">Airline travel has become a staple of modern society with passengers jetting off to locations around the globe.  Be it for business or for please, the citizens of earth are using air as a means of travel more than ever before.
+                    </br></br>
+                    
+                    Which nations have the highest amount of airline passengers over the past 45 years?  How does fluctuations in fuel costs affect the amount of people that travel by air?
+                    </p>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="map" class="map-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class= "slide-headings">Map</div>
+                    <div id="choroplethmap"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Line Chart -->
+    <section id="passengersoil" class="passengersoil-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="slide-headings">Global Passengers with Oil Prices</div>
+                    <p class="slide-text">The dual line graph shows the... </p>
+                <div id="passengersoilgraph"> <!--this is the element that goes in the .js file-->
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- About Viz Section -->
+    <section id="aboutviz" class="aboutviz-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                      <div class="slide-headings">About Visualization</div>
+                    <p class="slide-text">EDIT The project follows the interactive slide show narrative visualization structure. The Home page represents the base of the visualization structure. The user is being exposed to the author driven content and will be led through three different scenes/slides with giving user ability to move backwards and forward as well as jumping directly to specfic slide by clicking on top navigation bar.</br></br>
+
+                    </p>
+                    <h3>Rubric</h3>
+
+                    <li><span class="slide-point">Does the narrative visualization correctly follow the hybrid structure as stated by the essay?</span></li>
+                    <p class="slide-text">Interactive slide show narrative visualization structure is followed.</p>
+                    <li><span class="slide-point">Does the narrative visualization effectively utilize scenes?</span></li>
+                    <p class="slide-text"> Four different slides are used to give reader various perspective. Scenes are primilarily Author driven over mouse scroll event by user. However, Reader can jump to random scenes if he/she prefers.</p>
+                    <li><span class="slide-point">Does the narrative visualization effectively utilize annotations?</span></li>
+                    <p class="slide-text"> Tooltip, change of colors and Axes names etc. are used as annotations for different scenes.</p>
+                    <li><span class="slide-point">Does the narrative visualization effectively utilize parameters?</span></li>
+                    <p class="slide-text">Parameters are passed when user choose to jump to random scenes  by clicking on navigation bar. Parameters are also used to give user additional details during mouse hover event by showing a tooltip.</br>
+                    e.g. Breweries By population</br>
+                    Bar chart uses mouse position as parameter to mousehover event to display tooltip and chnage the other parameter color value.</p>
+                    <li><span class="slide-point">Does the narrative visualization effectively utilize triggers?</span></li>
+                    <p class="slide-text">The mouse click on navigation bar acts as a trigger event for navigation to different slides. 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+    
+    <!-- My JavaScript -->
+    <script src="js/line.js"></script>
+    
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+    <script src="functions.js"></script>
+
 </body>
+
 </html>
