@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Airline Pssengers...">
+  <meta name="author" content="Greg Embree">
+  <title>CS498 Final Project</title>
+  <style> 
+  
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
+   <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- Custom CSS -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    
+        
+    <!--Viz CSS code-->
+   <!-- <link href="css/choro.css" rel="stylesheet"> <!--
+   <!--  <link href="css/line.css" rel="stylesheet"> -->
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->  
+
+    <!-- Additional CSS tweaks -->
+ <link href="css/tweaks.css" rel="stylesheet"> 
+ 
+body {
+  background-color: #F1F3F3;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;  
+}
+p{
+  font-size: 10pt;
+  margin-left:20px;
+}
+.countries{
+  stroke: #fff;
+}
+.legend rect{
+  stroke: #000;
+}
+
+.legend, .legend_title text{
+  font-size:10pt;
+}
+
+.barlabel {
+  font-size:8pt;
+  text-anchor: middle;
+
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #D4D4DA;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: #247f66;
+  stroke-width: 5px;
+}
+.line2 {
+  fill: none;
+  stroke: #6c247f; 
+  stroke-width: 5px;
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+.focus circle {
+  fill: #F1F3F3;
+  stroke: #6F257F;  
+  stroke-width: 5px;
+}
+
+.hover-line {
+  stroke: #245f7f;
+  stroke-width: 2px;
+  stroke-dasharray: 3,3;
+}
+
+.basic_padding {
+  margin: 2em;
+  padding: 1em;
+  border: 1px dashed gray;
+}
+
+  </style>
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Overview</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top">Overview</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About Viz</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#map">Map</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#passengersoil">Global Passengers with Oil Prices</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#cites">Citations</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+       <!-- Overview Section -->
+    <section id="page-top" class="Overview-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                
+                   <div class="slide-headings"><b>Airline Passengers</b></div>
+                    
+                    <div class="slide-text">Airline travel has become a staple of modern society with passengers jetting off to locations around the globe.  Be it for business or for please, the citizens of earth are using air as a means of travel more than ever before.
+                    </br></br>
+                    
+                    Which nations have the highest amount of airline passengers over the past 45 years?  How does fluctuations in fuel costs affect the amount of people that travel by air?
+                    </div>
+                    </br></br>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+      <!-- About Viz Section -->
+    <section id="about" class="aboutviz-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                      <div class="slide-headings"><b>About Visualization</b></div>
+                    <li><span class="slide-text">My project follows the interactive slide show narrative visualization structure. The Overview page represents the base of the visualization. The user is being exposed to the author driven content and will be led through three different scenes/slides with giving user ability to move backwards and forward as well as jumping directly to specfic slide by clicking on top navigation bar.</br></br>
+                    
+                    <li><span class="slide-text">There are two different slides are used to give the reader perspective.  The scenes are a mixture of being driven by the author and the user as the user has the ability to drill down into the scenes in order to view more detail.  The user sees the map and their interest is piqued.  With their curiosity at attention they move to the next slide.
+                    </br></br>                    
+                    In the line graph the user can see an effective use of annotations with the tooltip highlighting the data value at a given point in each line.  The user has the ability to focus in the data that each line represents at a given point.  For example, the user can use the tooltip to look at the average oil price for a  given year and then move the cursor up or down to see to see how many global passengers travelled during that year.  In the choropleth map we see another use of annotations with the tooltip that is displayed while hovering over the specific country.  When hovering over a country, one can see the amount of airline passengers for the given year.
+                    </br></br>
+                    The interactive slideshow contains parameters as seen by the ability to change the year in the choropleth map.  When the user operates the toggle they witness the hue of red change with changing population.  From this we can see where the most airline passengers came from in a given year.  The dual line graph again allows the user to use the year as a parameter and visualize the corresponding data of that year using the tooltip.  Further, parameterization is seen in the narrative as a whole flows from the map to the line chart as we start to ask a more specific question of how oil prices affected the amount of people flying.
+                    </br></br>
+                    In order to utilize triggers were use a slider bar to move between years.  Each year displays different data as is evident to the user.  Also, as the slider comes to rest and the user is simply viewing a specific year they are essentially looking at an individual event for the given year.  The user is able to look further into the details for a given year.  The mouse click on the navigation bar acts as a trigger in order to navigate to different slides. Mouse scroll event takes user to next or previous slide. The mouse hover event is a trigger for the tooltip in all charts.
+                   </br></br>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="map" class="map-section">
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class= "slide-headings"><b>Choropleth Map</b></div>
+                    <div id="map_container" class="basic_padding"></div>
+                <!--    <div id="choroplethmap"></div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Line Chart -->
+    <section id="passengersoil" class="passengersoil-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="slide-headings"><b>Global Passengers with Oil Prices</b></div>
+                    <div id="passengersoilgraph"></div>
+                    <div id="linegraph_container" class="basic_padding"></div>
+                    <p class="slide-text">The dual line graph shows the relationship between oil prices and global air traverlers since 1970.  While there is some trend of increasing oil prices yielding... </p>
+                </div>
+            </div>    
+        </div>
+    </section>
+
+  
+       </section>
+    <!-- Citation Section -->
+    <section id="cites" class="Citations">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                      <div class="slide-headings"><b>Citations</b></div>
+                    <p class="slide-text">In order to design my narrative I made use of open source code relased under the GNU General Public License 3.  This includes: 
+                    </br></br>
+                    https://medium.com/@mbostock/a-better-way-to-code-2b1d2876a3a0</br>
+                    http://bl.ocks.org/tomschulze/961d57bd1bbd2a9ef993f2e8645cb8d2</br>
+                    https://bl.ocks.org/alandunning/cfb7dcd7951826b9eacd54f0647f48d3</br>
+                    http://bl.ocks.org/mbostock/3888852
+                   <p class="slide-text">Also, Bootstrap code which is licensed by MIT, Creative Commons Attribution:
+                    </br></br>
+                    http://getbootstrap.com/
+                    <p class="slide-text">Lastly, I would be remiss to not mention the help and debugging assistance from EH and AK.  Thank you.
+                    </br></br>
+                  
+                    
+                </div>
+            </div>
+        </div>       
+               
+    </section>
+
+   <!-- end of main-container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+    
+
+
+<!--<div id="map_container" class="basic_padding"></div> -->
+<!-- <div id="linegraph_container" class="basic_padding"></div> -->
+
+  <script src="http://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+
+  <script src="worldmap.js"></script>
+  <script src="linegraph.js"></script>
+</body>
+</html>
