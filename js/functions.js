@@ -91,11 +91,11 @@ function renderBars(color, data) {
 
   let bars = d3.select("svg#bars g.bars").selectAll("rect").data(array);
   bars.exit().remove();
-  
-  //bars.enter().append("rect")
-        .attr("width", 40)
+
+  bars.enter().append("rect")
+        .attr("width", 40) //added a hardcoded value so that I could see it render.  It didnt
         .merge(bars)
-        
+
         //.attr("fill", function(d) { return color(d.value); })
         .attr("x", function(d) { return x1(d.id); })//
         .attr("width", 40) //
@@ -202,7 +202,8 @@ function pairQuantiles(arr) {
   });
 
   return new_arr;
-=======
+
+}
 function fillMap(selection, color, data) {
 
   // TODO: minor fix, sometimes d gets a -99, why?
@@ -298,7 +299,7 @@ function renderBars(color, data) {
         .merge(bars)
         .attr("fill", function(d) { return color(d.value); })
         .attr("x", function(d) { return x1(d.id); })//
-        .attr("width", x1.bandwidth())//
+        .attr("width", 40)//ashish
         .attr("y", function(d) { return y1(d.value); })//
         .attr("height", function(d) {return svgBarsHeight - y1(d.value); }); //
 
@@ -402,5 +403,5 @@ function pairQuantiles(arr) {
   });
 
   return new_arr;
->>>>>>> 6ee0bf8961fcea0ade0cd27a588c7f2cae71c520
+
 }
