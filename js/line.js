@@ -15,8 +15,8 @@ var line = d3.line()
     //second line
 var line2 = d3.line()
     .x(function(d) { return x(d.year); })
-    .y(function(d) { return y2(d.passengers); });    
- //   
+    .y(function(d) { return y2(d.passengers); });
+ //
 var g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 d3.json("data/data1.json", function(error, data) {
@@ -31,21 +31,21 @@ d3.json("data/data1.json", function(error, data) {
     y.domain([d3.min(data, function(d) { return d.value; }) / 1.005, d3.max(data, function(d) { return d.value; }) * 1.005]);
     // scale the range of the passengers data
     y2.domain([d3.min(data, function(d) { return d.passengers; }) / 1.005, d3.max(data, function(d) { return d.passengers; }) * 1.005]);
-    
-  //title 
+
+  //title
     g.append("text")
-        .attr("x", (width / 2))             
+        .attr("x", (width / 2))
         .attr("y", 0 - (margin.top / 2))
-        .attr("text-anchor", "end")  
-        .style("font-size", "20px") 
-        .style("text-decoration", "bold")  
+        .attr("text-anchor", "end")
+        .style("font-size", "20px")
+        .style("text-decoration", "bold")
         .text("Light-Sweet Crude Prices and Global Passengers");
     //x axis format and label
  g.append("g")
         .attr("class", "axis axis--x")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x).ticks(15))
-        
+
         //x axis title
         .append("text")
         .attr("class", "axis-title")
@@ -55,11 +55,11 @@ d3.json("data/data1.json", function(error, data) {
         .style("text-anchor", "right")
         .attr("fill", "#5D6971")
         .text("Year");
-        
+
  // y axis and format label
   g.append("g")
         .attr("class", "axis axis--y")
-        .call(d3.axisLeft(y).ticks(8).tickFormat(function(d) { return parseInt(d); })) 
+        .call(d3.axisLeft(y).ticks(8).tickFormat(function(d) { return parseInt(d); }))
       .append("text")
         .attr("class", "axis-title")
         .attr("transform", "rotate(-90)")
@@ -67,12 +67,12 @@ d3.json("data/data1.json", function(error, data) {
         .attr("dy", ".91em")
         .style("text-anchor", "end")
         .attr("fill", "#5D6971")
-        .text("Avg. oil Price ($/barrel)"); 
-        
+        .text("Avg. oil Price ($/barrel)");
+
 g.append("g")
       .attr("class", "axis axis--y2")
       .attr("transform", "translate(" + width + ",0)")
-      .call(d3.axisRight(y2).ticks(12).tickFormat(function(d) { return parseInt(d); })) 
+      .call(d3.axisRight(y2).ticks(12).tickFormat(function(d) { return parseInt(d); }))
     .append("text")
       .attr("class", "axis-title")
       .attr("transform", "rotate(-90)")
@@ -80,12 +80,12 @@ g.append("g")
       .attr("dy", "-.91em")
       .style("text-anchor", "end")
       .attr("fill", "#5D6971")
-      .text("Global Passengers (Billions)"); 
- 
+      .text("Global Passengers (Billions)");
+
     g.append("path")
         .datum(data)
         .attr("class", "line")
-        .attr("d", line);  
+        .attr("d", line);
     g.append("path")
         .datum(data)
         .attr("class", "line2")
@@ -109,17 +109,17 @@ g.append("g")
     svg.append("rect")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .attr("class", "overlay")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("width", 20)//ashish
+        .attr("height", 112)//ashish
         .on("mouseover", function() { focus.style("display", "initial"); }) // "initial" gives the default display attribute
         .on("mouseout", function() { focus.style("display", "none"); })
         .on("mousemove", mousemove);
     //legend
-    
+
 var color = d3.scaleLinear()
   .range(["#247f66", "#6c247f"]);
 var legendText = ["Oil Price","Global Passengers"];
-                
+
 var legend = d3.select("#passengersoilgraph").append("svg")
       			.attr("class", "legend")
      			.attr("width", 300)
@@ -139,9 +139,9 @@ var legend = d3.select("#passengersoilgraph").append("svg")
       	  .attr("y", 9)
       	  .attr("dy", ".35em")
       	  .text(function(d) { return d; });
- 
-   
-     
+
+
+
     function mousemove() {
       var x0 = x.invert(d3.mouse(this)[0]),
           i = bisectDate(data, x0, 1),
@@ -165,6 +165,6 @@ var legend = d3.select("#passengersoilgraph").append("svg")
       focus.select("text").text(function() { return display_text; });
       focus.select(".x-hover-line").attr("y2", height - vert_offset);
       focus.select(".y-hover-line").attr("x2", width + width);
-      
+
     }
 });
