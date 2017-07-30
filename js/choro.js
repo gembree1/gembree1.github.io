@@ -1,69 +1,22 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <style>
-    body{
-      font-family: 'Helvetica Neue', Helvetica, sans-serif;
-    }
-
-    p{
-      font-size: 10pt;
-      margin-left:20px;
-    }
-    .countries{
-      stroke: #fff;
-    }
-    .legend rect{
-      stroke: #000;
-    }
-
-    .legend, .legend_title text{
-      font-size:10pt;
-    }
-
-    .barlabel {
-      font-size:8pt;
-      text-anchor: middle;
-
-    }
-  </style>
-</head>
-
-<body>
-  <script src="http://d3js.org/d3.v4.min.js"></script>
-  <script src="https://d3js.org/topojson.v2.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
-  <script src="functions.js"></script>
-  <script>
-
-    /// params
-
     var color_na = d3.rgb("#d4d4d4");
     // only works if array.length-1 is between 3 and 9 (d3 color scheme)
-    var quantiles = [0, 0.2, 0.4, 0.6, 0.8, 1];
+    var quantiles = [0, 0.2, 0.4, 0.6, 0.8, 1]
     var init_year = 1970;
     var headline = "Airline Passengers by Country of Flight Origin ";
 
-    /// main
-
     // slider
-    d3.select("body").insert("p", ":first-child").append("input")
+    d3.select("#choroplethmap").insert("p", ":first-child").append("input")
         .attr("type", "range")
         .attr("min", "1970")
         .attr("max", "2016")
         .attr("value", init_year)
         .attr("id", "year");
 
-    d3.select("body").insert("h2", ":first-child").text(headline + init_year);
+    d3.select("#choroplethmap").insert("h2", ":first-child").text(headline + init_year);
 
     // init map container, projection
     var width = 1360, height = 425;     //orig 960
-    var svg_map = d3.select("body").insert("svg")
+    var svg_map = d3.select("#choroplethmap").insert("svg")
                   .attr("id", "map")
                   .attr("height", height)
                   .attr("width", width);
@@ -85,18 +38,19 @@
                 .rangeRound([0, svgBarsWidth])
                 .padding(.05);
    var y = d3.scaleLinear().range([svgBarsHeight, 0]);
-
-   var svg_bars = d3.select("body")
-       .append("svg")
-         .attr("id", "bars")
-         .attr("width", svgBarsWidth + margin.left + margin.right)
-         .attr("height", svgBarsHeight + margin.top + margin.bottom)
-       .append("g")
-         .attr("class", "bars")
-         .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+    
+    //comment out this next block to remove bars
+//  var svg_bars = d3.select("body")
+//      .append("svg")
+//        .attr("id", "bars")
+//        .attr("width", svgBarsWidth + margin.left + margin.right)
+//        .attr("height", svgBarsHeight + margin.top + margin.bottom)
+//      .append("g")
+//        .attr("class", "bars")
+//        .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
     // load data
-    d3.json("dataChloro.json", function(error, d) {
+    d3.json("data/dataChloro.json", function(error, d) {
 
       if (error) throw error;
 
@@ -135,7 +89,3 @@
       });
 
     }); 
-
-  </script>
-</body>
-</html>
