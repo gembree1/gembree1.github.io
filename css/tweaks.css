@@ -1,20 +1,19 @@
-
 /* Suggested tweaks by Eric Huber. */
 
 /* The top margin should be large enough to clear the space that the
    navbar would occupy. The main page content goes inside. */
-#main-container {
-	margin-top:125px;
+body {
+    margin-top:125px;
 }
 
 /* Sections within the main container need spacing. */
-#main-container section {
-	margin-top: 50px;
-	margin-bottom: 50px;
+body section {
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 /* Within a section, the container class gets more padding and a border. */
-#main-container section .container {
-	padding: 1em;
-	border: 1px dashed gray;
+body section .container {
+    padding: 1em;
+    border: 1px dashed gray;
 }
